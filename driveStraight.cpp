@@ -13,8 +13,8 @@ int count = 1;
 
 int forward(){
   init();
-  set_motor(1, 50);
-  set_motor(2, -50);
+  set_motor(1, 50); //make this faster if car is drifting LEFT
+  set_motor(2, -50); //make this faster if drifting RIGHT
   sleep(8, 0); //runs for 8 seconds
   stop(0);
 return 0;}
