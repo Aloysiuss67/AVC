@@ -19,8 +19,10 @@ int forward(){
   stop(0);
 return 0;}
 
-while (count = 1){ //will keep running unless we change the count
-  init();
-  forward();
-  sleep(5,0); //gives 5 seconds to reset the car
+int main(){
+  while (count = 1){ //will keep running unless we change the count
+    init();
+    forward();
+    sleep(5,0); //gives 5 seconds to reset the car
+  }
 return 0;}
