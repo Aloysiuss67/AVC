@@ -7,6 +7,13 @@
 
 int colourCutOff = 110; //this will need to be tested and changed, it is the point where a number is either black or white90
 
+int forward (){
+ init();
+  
+  set_motor(1, 50);
+  set_motor(2, -50);
+}
+
 int steerRight (){ // will need to be adjusted to turn at the right rate
   init();
   
@@ -45,6 +52,9 @@ int main (){ //main program
     }
     if (sum < 0){ // if the white line to the left, it should turn left until in the middle
       steerLeft();
+    }
+    else {
+     forward(); 
     }
   }
  
