@@ -12,21 +12,21 @@ int forward (){
   
   set_motor(1, 50);
   set_motor(2, -50);
-}
+return(0);}
 
 int steerRight (){ // will need to be adjusted to turn at the right rate
   init();
   
   set_motor(1, 50);
   set_motor(2, -60); 
-}
+return(0);}
 
 int steerLeft (){ // will need to be adjusted to turn at the right rate
   init();
   
   set_motor(1, 60);
   set_motor(2, -50);
-}
+return(0);}
 
 int main (){ //main program
   init();
@@ -56,5 +56,4 @@ int main (){ //main program
     else {
      forward(); 
     }
-  }
- 
+  return(0);}
