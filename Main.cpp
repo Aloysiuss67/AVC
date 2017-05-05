@@ -37,7 +37,7 @@ int main (){ //main program
     int sum = -160;
     int i;
       for (i=0, i<320, i++){
-      w = get_pixel (i, 120, 3);
+      w = get_pixel (i, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (w < colourCutOff){ //sets colour value to true black if closer to black in colour
           w = 0
         }
