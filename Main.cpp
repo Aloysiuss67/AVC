@@ -40,10 +40,10 @@ int main (){ //main program
    
       for (iLeft=0, iLeft<=160, iLeft++){
       l = get_pixel (iLeft, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
-        if (w < colourCutOff){ //sets colour value to true black if closer to black in colour
+        if (l < colourCutOff){ //sets colour value to true black if closer to black in colour
           l = 0
         }
-        if (w > colourCutOff){ //sets colour to true white if closer to white
+        if (l > colourCutOff){ //sets colour to true white if closer to white
           l = 255
         }  
       sum = sum + i*w;
