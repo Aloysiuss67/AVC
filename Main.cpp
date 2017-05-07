@@ -34,18 +34,32 @@ int main (){ //main program
   while (true){ //keeps running (for now)
   
     take_picture();
-    int sum = -160;
-    int i;
-      for (i=0, i<320, i++){
-      w = get_pixel (i, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
+    int sum = 0;
+    int iLeft;
+    int iRight;
+   
+      for (iLeft=0, iLeft<=160, iLeft++){
+      l = get_pixel (iLeft, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (w < colourCutOff){ //sets colour value to true black if closer to black in colour
-          w = 0
+          l = 0
         }
         if (w > colourCutOff){ //sets colour to true white if closer to white
-          w = 255
+          l = 255
         }  
-      sum = sum + i*w:
-      } 
+      sum = sum + i*w;
+      }
+   
+      for (iRight=161, iRight<320, iRight++){
+       r = get_pixel (iRight, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
+        if (r < colourCutOff){ //sets colour value to true black if closer to black in colour
+          r = 0
+        }
+        if (r > colourCutOff){ //sets colour to true white if closer to white
+          r = 255
+        }  
+      sum = sum - i*r;
+      }
+     
     
     if (sum > 0){  // if the white line to the right, it should turn right until in the middle
       steerRight(); 
