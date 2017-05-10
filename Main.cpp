@@ -5,10 +5,12 @@
 //assume motor 1 is on the left so that the +ve direction is forward
 //assume motor 2 is on the right so that the -ve direction is forward
 
-char colourCutOff = 110; //this will need to be tested and changed, it is the point where a number is either black or white9
+char colourCutOff = 70; //this will need to be tested and changed, it is the point where a number is either black or white9
 int sum = 0;
-int i;
-double scale = 0.2;  // will need to change, so basic for now
+int i= 0;
+double scale = 0.25;  // will need to change, so basic for now
+int count=1;
+char pix = 0;
 
 int main (){ //main program
   init();
@@ -16,27 +18,47 @@ int main (){ //main program
   while (true){ //keeps running (for now)
   
     take_picture();
-    display_picture(1,0);
+    //display_picture(1,0);
      
-      for (i = 0, i<=320, i = i +20){
-      char pix = get_pixel (i, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
+      for (i = 0; i<320; i = i +20){
+      pix = get_pixel (120, i, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (pix < colourCutOff){ //sets colour value to true black if closer to black in colour
           pix = 0;
         }
         if (pix > colourCutOff){ //sets colour to true white if closer to white
           pix = 1;
+	  count++;
         }  
-      sum = sum + ((i-160)*(int)pix)/160; // and i assume we'll have to cast some variables here
-       
-       printf("%d\n", sum);
+      sum = sum + ((i-160)*(int)pix)/count; // and i assume we'll have to cast some variables here
+
+      // printf("%d pre\n", sum);
       }
+      //printf("%i count\n", count);
+      //printf("%i pix \n", ((i-160)*(int)pix));
+     // printf("%i pix wo cast,\n", ((i-160)*pix));
+      //printf("%i divide by count ,\n", ((i-160)*(int)pix)/count);
+     
+      //sleep1(1,0);
+             count = 1;
+             
+  
+  
    
    // two types of steering
+   //printf("%d pre\n", sum);
    
-   sum = (double)sum * scale;
-   
-   set_motor(1, 80 + sum); // if sum is positive, line is on the right, therefore we must turn right
-   set_motor(2, -80 - sum); // if sum is negative, line is on the left, therefore we must turn left
-   
-  return(0);}
+  sum =(int)((double)sum * scale);
+   if (sum > 62){
+  sum = 62;
+  }
+  if (sum < -62){
+  sum = -62;
+	
 }
+	printf("%d\n", sum);
+   set_motor(2, 41 + (sum)); // if sum is positive, line is on the right, therefore we must turn right
+   set_motor(1, 41 - sum); // if sum is negative, line is on the left, therefore we must turn left
+   sum = 0;
+   sleep1(0, 45); // maybe bring this back to 50
+  }
+return(0);}
