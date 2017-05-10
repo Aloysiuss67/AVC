@@ -18,7 +18,7 @@ int main (){ //main program
     take_picture();
     display_picture(1,0);
      
-      for (i = 0, i<=320, i++){
+      for (i = 0, i<=320, i = i +20){
       char pix = get_pixel (i, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (pix < colourCutOff){ //sets colour value to true black if closer to black in colour
           pix = 0;
