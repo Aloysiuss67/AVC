@@ -16,8 +16,9 @@ int main (){ //main program
   while (true){ //keeps running (for now)
   
     take_picture();
+    display_picture(1,0);
      
-      while (i<=320){
+      for (i = 0, i<=320, i++){
       char pix = get_pixel (i, 120, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (pix < colourCutOff){ //sets colour value to true black if closer to black in colour
           pix = 0;
@@ -25,8 +26,9 @@ int main (){ //main program
         if (pix > colourCutOff){ //sets colour to true white if closer to white
           pix = 1;
         }  
-      sum = sum + (i-160)*(int)pix; // and i assume we'll have to cast some variables here
-       i++;
+      sum = sum + ((i-160)*(int)pix)/160; // and i assume we'll have to cast some variables here
+       
+       printf("%d\n", sum);
       }
    
    // two types of steering
