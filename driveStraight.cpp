@@ -21,7 +21,7 @@ return 0;}
 
 int main(){
   init();
-    while (count = 1){ //will keep running unless we change the count
+    while (count == 1){ //will keep running unless we change the count
       forward();
       sleep(5,0); //gives 5 seconds to reset the car
   }
