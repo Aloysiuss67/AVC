@@ -7,6 +7,7 @@
 
 char colourCutOff = 80; //this will need to be tested and changed, it is the point where a number is either black or white9
 int sum = 0;
+int sumTwo = 0;
 int i= 0;
 double scale = 0.3;  // will need to change, so basic for now
 int count=1;
@@ -43,15 +44,15 @@ int main (){ //main program
 		if( pixCheck >=  colourCutOff) {
 		  pixCheck = 1;
 		}
-		sum = sum + (int)pixCheck;
+		sumTwo = sumTwo + (int)pixCheck;
     }
 	  //printf("%i \n", sum);
 		
-	  if (sum > 2){ //if white line exists infront robot will continue to drive straight
+	  if (sumTwo > 2){ //if white line exists infront robot will continue to drive straight
 	    driveForward();
 	  }
 	
-	if (sum <=  3){ //change sum to  sum <=  3 SHOULD THIS BE CLOSED?
+	if (sumTwo <=  3){ //change sum to  sum <=  3 SHOULD THIS BE CLOSED?
      // test only code for intial turn on the robot if no white line is ahead anymore 
 	turnLeft();
      
