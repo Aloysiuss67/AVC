@@ -25,7 +25,10 @@ int driveForward(){
 int turnLeft(){
 	set_motor(1, -50); //left
 	set_motor(2, 50); //right
-	sleep1(0, 300);
+	sleep1(0, 200);
+	set_motor(1, -30);
+	set_motor(1, -30);
+	
 	sumTwo= 0;
 	sum = 0;
 }
@@ -54,7 +57,7 @@ int main (){ //main program
 	    driveForward();
 	  }
 	
-	if (sumTwo <=  3){ //change sum to  sum <=  3 SHOULD THIS BE CLOSED?
+	if (sumTwo <=  3){ //change sum to  sum <=  3 SHOULD THIS BE CLOSED? this logic hurts my brain
      // test only code for intial turn on the robot if no white line is ahead anymore 
 	turnLeft();
      
