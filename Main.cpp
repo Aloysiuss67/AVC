@@ -18,6 +18,7 @@ int driveForward(){
 	set_motor(1, 37 + sum); // left motor
 	set_motor(2, 37 - sum); // right motor
 	sleep1(0, 50);
+	sumTwo = 0;
 	sum = 0;
 }
 
@@ -25,6 +26,7 @@ int turnLeft(){
 	set_motor(1, -50); //left
 	set_motor(2, 50); //right
 	sleep1(0, 300);
+	sumTwo= 0;
 	sum = 0;
 }
 
