@@ -15,19 +15,17 @@ char pix = 0;
 char pixCheck = 0;
 
 int driveForward(){
-	set_motor(1, 37 + sum); // left motor
-	set_motor(2, 37 - sum); // right motor
+	set_motor(1, 37 + (sum)); // left motor, bracket to ensure correct polarity 
+	set_motor(2, 37 - (sum)); // right motor, bracket to ensure correct polarity
 	sleep1(0, 50);
 	sumTwo = 0;
 	sum = 0;
 }
 
-int turnLeft(){
-	set_motor(1, -50); //left
-	set_motor(2, 50); //right
+int find(){ // reverses, while turning slightly left
+	set_motor(1, -70); //left
+	set_motor(2, -40); //right
 	sleep1(0, 200);
-	set_motor(1, -30);
-	set_motor(1, -30);
 	
 	sumTwo= 0;
 	sum = 0;
@@ -57,9 +55,9 @@ int main (){ //main program
 	    driveForward();
 	  }
 	
-	if (sumTwo <=  3){ //change sum to  sum <=  3 SHOULD THIS BE CLOSED? this logic hurts my brain
+	if (sumTwo <=  2){ // figures out which way to adjust
      // test only code for intial turn on the robot if no white line is ahead anymore 
-	turnLeft();
+	
      
       for (i = 0; i<320; i = i +20){
       pix = get_pixel (120, i, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
@@ -79,11 +77,18 @@ int main (){ //main program
      // printf("%i pix wo cast,\n", ((i-160)*pix));
       //printf("%i divide by count ,\n", ((i-160)*(int)pix)/count);
       //sleep1(1,0);
-       count = 1;
-            
+       if (count > 15){ // if lots of white pixel exist, we are at a junction 
+	       find();
+       }
+		
+	if (count < 3){  // if very few pixels exist, we have lost the line
+		find();
+	}
+		
+	if (count <= 15 && count >= 3){ // adjust to the line
    	//printf("%d pre\n", sum);
    	
-    sum =(int)((double)sum * scale);
+    	sum =(int)((double)sum * scale);
    	if (sum > 45){
 	 sum = 45;
 	}
@@ -92,6 +97,7 @@ int main (){ //main program
 	}
 	printf("%d\n", sum);
    	driveForward();
+	}
   }
 }
 //sum = 0; i think this isnt needed now
