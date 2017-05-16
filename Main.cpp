@@ -39,8 +39,8 @@ int main (){ //main program
     take_picture();
    // display_picture(1,0);
    
-    for (i = 120; i <200; i = i + 10){ // test code for going straight if line ahead occurs
-		pixCheck = get_pixel (20, i, 3);
+    for (i = 120; i <200; i = i + 4){ // test code for going straight if line ahead occurs
+		pixCheck = get_pixel (1, i, 3);
 		if (pixCheck < colourCutOff){    //sets colour value to true black if closer to black in colour
           	  pixCheck = 0;
         	} 
@@ -51,11 +51,11 @@ int main (){ //main program
     }
 	  //printf("%i \n", sum);
 		
-	  if (sumTwo > 2){ //if white line exists infront robot will continue to drive straight
+	  if (sumTwo > 4){ //if white line exists infront robot will continue to drive straight
 	    driveForward();
 	  }
 	
-	if (sumTwo <=  2){ // figures out which way to adjust
+	if (sumTwo <=  4){ // figures out which way to adjust
      // test only code for intial turn on the robot if no white line is ahead anymore 
 	
      
