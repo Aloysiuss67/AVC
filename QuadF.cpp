@@ -1,6 +1,6 @@
 # include <stdio.h>
 # include <time.h>
-//# include "e101.h" 
+//# include "E101.h" 
 //assuming 0 refers to front sensor
 //assuming 1 refers to right sensor
 int turn90(String Dir) {
@@ -15,6 +15,29 @@ int turn90(String Dir) {
   if(fSensor>minWallDist && rSensor>minWallDist){
     turning = false; 
   }
+}
+int fCenter(){//goforward and center it - we know in front of us is clear
+	int tolerance = 50;//range either side which the avc can be which is acceptable
+	int errorVal = center - rSensor;//if neg turn right
+	if(errorVal < -tolerance){//want to turn right
+		//this senario is where we are to far to the left
+		//we have negative error value
+		//we want to increase left wheel speed -> by minusing a negative errorValue
+		//and decrease right wheel speed -> by adding a negative errorValue
+		left_motor(1, 35 -(errorVal));//we known this wont work - just showing logic
+      		right_motor(2, 35 + (errorVal));	
+	}else if(errorVal>tolerance){
+		left_motor(1, 35 -(errorVal));//we known this wont work - just showing logic
+      		right_motor(2, 35 + (errorVal));
+	}else{
+		left_motor(1, 35);//we known this wont work - just showing logic
+      		right_motor(2, 35);
+		//perhaps could try something like this -> where the error value matters less if within tolerance
+		left_motor(1, 35 -(errorVal*0.3));//we known this wont work - just showing logic
+      		right_motor(2, 35 + (errorVal*0.3));
+		
+	}
+	
 }
 int main(){
   //assume quad4 code has been called and sensors are within walls
@@ -52,8 +75,8 @@ int main(){
       //go forward
       //could also include further away faster it can go - relates to how far away it is
       //(fSensor-minWallDist)*sensorToSpeed
-      set_motor(1, 35);
-      set_motor(2, 35);      
+
+      fCenter()
     }else if(fSensor>minWallDist){//accounting for the time it will take to stop
       set_motor(1, 10);
       set_motor(2, 10); 
