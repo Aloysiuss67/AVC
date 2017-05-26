@@ -7,10 +7,11 @@
 //assume motor 2 is on the right
 
 char colourCutOff = 90; //this will need to be tested and changed, it is the point where a number is either black or white9
+char RGBCutOff = 220;
 int sum = 0;
 int sumTwo = 0;
 int i= 0;
-double scale = 0.28;  // will need to change, so basic for now
+double scale = 0.19;  // will need to change, so basic for now
 int count=1;
 char pix = 0;
 char pixLeft = 0;
@@ -20,11 +21,16 @@ int countJ = 1;
 char pixRight = 0;
 int junction = 0;
 int gateNo = 0;
-int leftT = 0;
+int leftT = 3;
+bool quad4 = false;
+char bluePix = 0;
+char greenPix = 0;
+char redPix = 0;
+int countRedPix = 0;
 
 int driveForward(){
 	set_motor(1, 38 + (sum)); // left motor, bracket to ensure correct polarity 
-	set_motor(2, 44  - (sum)); // right motor, bracket to ensure correct polarity
+	set_motor(2, 48  - (sum)); // right motor, bracket to ensure correct polarity
 	sleep1(0, 50);
 	sumTwo = 0;
 	sum = 0;
@@ -33,10 +39,11 @@ int driveForward(){
 }
 
 int left(){ // reverses, while turning slightly left
-	sleep1(0, 40000);
-	set_motor(1, -40); //left
-	set_motor(2, 40); //right
-	sleep1(0, 75000);
+	driveForward();
+	sleep1(0, 8000);
+	set_motor(1, -60); //left
+	set_motor(2, 60); //right
+	sleep1(0, 25000);
 	count = 1;
 	countR = 1;
 	countL = 1;
@@ -44,11 +51,11 @@ int left(){ // reverses, while turning slightly left
 }
 
 int right(){
-	//driveForward();
+	driveForward();
+	sleep1(0, 8000);
+	set_motor(1, 68); //left
+	set_motor(2, -68); //right
 	sleep1(0, 40000);
-	set_motor(1, 40); //left
-	set_motor(2, -40); //right
-	sleep1(0, 170000);
 	count = 1;
 	countR = 1;
 	countL = 1;
@@ -70,37 +77,50 @@ return 0;}
 int main (){ //main program
   init();
  
-  while (true){ //keeps running (for now)
+  while (quad4==false){ //keeps running (for now)
   if (gateNo == 0) {
 	  gateNo = 1;
 	  gate ();
 	  sleep1(1, 2000);
-  } else
+  } //else
     take_picture();
-	count = 1;  
-   // display_picture(1,0);
+	count = 1; 
+	
+	  for (i = 100; i < 220; i = i +15){
+		  bluePix = get_pixel (239, i, 2);
+		  greenPix = get_pixel (239, i, 1);
+		  redPix = get_pixel (239, i, 0);
+		  if (redPix > RGBCutOff && bluePix < RGBCutOff && greenPix < RGBCutOff){
+			  countRedPix++;
+		  } 
+	  }
+	  if (countRedPix > 3){
+		  set_motor(1, 0);
+		  set_motor(2, 0);
+		  return(0);
+	  }
 	
       for (i = 19; i<320; i = i +20){
       pix = get_pixel (239, i, 3); //gets the pixels on the middle row, we might want to change this depending on camera mounting
         if (pix < colourCutOff){ //sets colour value to true black if closer to black in colour
           pix = 0;
-         printf("0");
+        // printf("0");
         }
         if (pix >=  colourCutOff){ //sets colour to true white if closer to white
           pix = 1;
 		  count++;
-		  printf("1");
+	//	  printf("1");
         }  
       
       sum = sum + ((i-160)*(int)pix)/count; // and i assume we'll have to cast some variables here
      }
-    printf("\n");
+    //printf("\n");
 	if (count > 15){
 		junction = 1;
 	
 	}
 	
-   	if (junction == 0);{
+   	if (junction == 0){
     sum =(int)((double)sum * scale);
 		
    	if (sum > 45){
@@ -114,7 +134,7 @@ int main (){ //main program
 	}
 	
 	if (junction == 1){
-		for (i = 0; i<120; i = i +5){
+		for (i = 0; i<80; i = i +3){
 			pixLeft = get_pixel (i, 1, 3);
 			if (pixLeft < colourCutOff){ //sets colour value to true black if closer to black in colour
             }
@@ -122,7 +142,7 @@ int main (){ //main program
 			countL++;
 			} 
 		}
-		for (i = 0; i<120; i = i +5){
+		for (i = 0; i<80; i = i +3){
 			pixRight = get_pixel (i, 319, 3);
 			if (pixRight < colourCutOff){ //sets colour value to true black if closer to black in colour
             }
@@ -133,8 +153,9 @@ int main (){ //main program
 		
 		if (countL > 3 && countR > 3){
 			if (countJ == 1){
-				sum = 150;
-				driveForward;
+				sum = 0;
+				driveForward();
+				sleep1(3, 100000);
 				countJ = 2;
 			}
 			if (countJ == 2){ 
@@ -143,8 +164,8 @@ int main (){ //main program
 		}
 		else if (countL > countR){
 			if (leftT <= 2) {
-			driveForward ();
-			sleep1(1, 0);
+			driveForward();
+			sleep1(1, 90000);
 			leftT++;
 			}
 			else {
